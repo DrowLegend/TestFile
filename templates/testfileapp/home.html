@@ -1,33 +1,60 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% block page %}
-{#    <div class="user">#}
-{#    {% if request.user.is_authenticated %}#}
-{#        <h1>Hello, {{ request.user }}</h1>#}
-{#    {% endif %}#}
-{#    </div>#}
 
-    <div class="side">
-        <a href="{% url 'sign_up' %}">Регистрация</a>
-        <br>
-        {% if request.user.is_authenticated %}
+    {% if not request.user.is_authenticate %}
+        <div class="side">
+            <a href="{% url 'sign_up' %}">Регистрация</a>
+        </div>
+        <div>
+            <a href="{% url 'sign_in' %}">Войти</a>
+        </div>
+        <div>
+            <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+        </div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
             <a href="{% url 'sign_out' %}">Выйти</a>
-        {% endif %}
-    </div>
-    <br>
-    <br>
-    <br>
+            <h1>Hello, {{ request.user }}</h1>
+
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ upload_file_form }}
         <button type="submit">Загрузить файл</button>
     </form>
-    <h2>File Name      File Size</h2>
-        {% for file in files %}
-            <a href="{{ file.file.url }}">{{ file.file.name }}</a> {{ file.file.size| filesizeformat }} {{ file.is_active }}  {{ file.pk }}
-
-            <br>
+    <div class="date">
+        <h2>Upload Time</h2>
+        <ul>{% for file in files %}</ul>
+            <li>{{ file.date }}</li>
         {% endfor %}
+    </div>
+    <div class="filename">
+        <h2>Filename</h2>
+        <ul>{% for file in files %}</ul>
+            <li>{{ file.file.name }}</li>
+        {% endfor %}
+
+    </div>
+    <div class="file-size">
+        <h2>Size</h2>
+        <ul>{% for file in files %}</ul>
+            <li>{{ file.file.size| filesizeformat }}</li>
+        {% endfor %}
+    </div>
+    <div class="active-file">
+        <h2>Status</h2>
+        <ul>{% for file in files %}</ul>
+            {% if file.is_active == False %}
+                <li>Pending</li>
+            {% else %}
+                <li><a href="{{ file.file.url }}">Ready</a></li>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
 
     <h1>{{ result }}</h1>
 {% endblock %}

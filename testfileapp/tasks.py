@@ -1,6 +1,13 @@
 from celery import shared_task
-#from .models import UploadFile
+from testfileapp.models import UploadFile
+import time
+
 
 @shared_task
 def set_status_as_inactive(pk):
-    UploadFile.objects.get(pk=pk)
+    file = UploadFile.objects.get(pk=pk)
+    time.sleep(5)
+    file.is_active = True
+    file.save()
+
+
