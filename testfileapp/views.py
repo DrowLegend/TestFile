@@ -13,7 +13,7 @@ def red(request):
 
 
 def home(request):
-    files = UploadFile.objects.all()
+    files = UploadFile.objects.all() #получение всех файлов
 
     if request.method == 'POST':
         upload_file_form = UploadFileForm(request.POST, request.FILES)
@@ -40,7 +40,7 @@ def sign_up(request):
         user_form = UserForm(request.POST)
 
         if user_form.is_valid():
-            User.objects.create_user(**user_form.cleaned_data)
+            User.objects.create_user(**user_form.cleaned_data) #создание нового пользователя
 
             return redirect(home)
 

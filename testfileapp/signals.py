@@ -3,7 +3,7 @@ from django.db.models.signals import post_save
 from .models import UploadFile
 from .tasks import set_status_as_inactive
 
-
+# сигнал срабатывает после сохранения формы чем и запускает таск
 @receiver(post_save, sender=UploadFile)
 def notify(sender, instance, created, **kwargs):
     if created:

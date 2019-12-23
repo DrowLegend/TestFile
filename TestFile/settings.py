@@ -140,6 +140,8 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# facebook settings
+
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'login'
@@ -157,7 +159,7 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
     ('email', 'email'),
 ]
 
-
+# celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
